@@ -42,33 +42,27 @@ public class LexicAnalyzer {
     }
 
     void lookup() {
+        addChar();
         switch (nextChar) {
             case '(':
-                addChar();
                 nextToken = Token.Id.LEFT_PAREN;
                 break;
             case ')':
-                addChar();
                 nextToken = Token.Id.RIGHT_PAREN;
                 break;
             case '+':
-                addChar();
                 nextToken = Token.Id.ADD_OP;
                 break;
             case '-':
-                addChar();
                 nextToken = Token.Id.SUB_OP;
                 break;
             case '*':
-                addChar();
                 nextToken = Token.Id.MULT_OP;
                 break;
             case '/':
-                addChar();
                 nextToken = Token.Id.DIV_OP;
                 break;
             default:
-                addChar();
                 nextToken = Token.Id.INVALID;
         }
     }
@@ -105,7 +99,7 @@ public class LexicAnalyzer {
             getChar();
     }
 
-    Token get(boolean verbose) {
+    Token get() {
         lexeme = new StringBuilder();
         getNonBlank();
         if (charClass == CharClass.LETTER) {
@@ -141,14 +135,6 @@ public class LexicAnalyzer {
             lexeme.append("EOF");
         }
 
-        Token token = new Token(nextToken, lexeme.toString());
-        if (verbose)
-            System.out.printf("Next token is %s, lexeme: %s\n", token.getId(), token.getLexeme());
-        return token;
+        return new Token(nextToken, lexeme.toString());
     }
-
-    Token get() {
-        return get(false);
-    }
-
 }

@@ -30,7 +30,7 @@ public class RecursiveParser {
     }
 
     public void run() throws ParseError {
-        nextToken = lex.get(true);
+        getNextToken();
         expr();
     }
 
@@ -39,7 +39,7 @@ public class RecursiveParser {
 
         term();
         while (nextToken.getId() == Token.Id.ADD_OP || nextToken.getId() == Token.Id.SUB_OP) {
-            nextToken = lex.get(true);
+            getNextToken();
             term();
         }
 
@@ -52,7 +52,7 @@ public class RecursiveParser {
         factor();
 
         while (nextToken.getId() == Token.Id.MULT_OP || nextToken.getId() == Token.Id.SUB_OP) {
-            nextToken = lex.get(true);
+            getNextToken();
             factor();
         }
 
@@ -63,12 +63,12 @@ public class RecursiveParser {
         System.out.println("<factor>");
 
         if (nextToken.getId() == Token.Id.IDENT || nextToken.getId() == Token.Id.INT_LIT) {
-            nextToken = lex.get(true);
+            getNextToken();
         } else if (nextToken.getId() == Token.Id.LEFT_PAREN) {
-            nextToken = lex.get(true);
+            getNextToken();
             expr();
             if (nextToken.getId() == Token.Id.RIGHT_PAREN)
-                nextToken = lex.get(true);
+                getNextToken();
             else
                 throw new ParseError("')' expected");
         } else {
@@ -76,6 +76,11 @@ public class RecursiveParser {
         }
 
         System.out.println("</factor>");
+    }
+
+    private void getNextToken() {
+        nextToken = lex.get();
+        System.out.printf("Token %s: '%s'\n", nextToken.getId(), nextToken.getLexeme());
     }
 
 }
