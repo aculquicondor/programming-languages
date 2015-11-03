@@ -1,6 +1,6 @@
 *.swp
 *.o
-a.out
+*.out
 *.in
 *.class
 *.exe
